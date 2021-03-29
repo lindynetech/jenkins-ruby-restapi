@@ -3,7 +3,7 @@ require 'sinatra'
 set :environment, :production
 
 $books = {}
-dock
+
 post '/books' do
   request.body.rewind
   new_book= request.body.read
