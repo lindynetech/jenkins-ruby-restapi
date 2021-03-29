@@ -10,7 +10,7 @@ pipeline{
         stage("Prapare Runtime"){
             steps{
                 echo "====++++executing Prapare Runtime++++===="
-                sh "sudo yum install ruby ruby-devel rubygem-cucumber -y"
+                sh "sudo yum install ruby ruby-devel rubygem-cucumber gcc -y"
                 sh "sudo gem install json rest-client"
             }
         }
