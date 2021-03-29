@@ -4,13 +4,14 @@ pipeline{
     }
    environment {
         imageName = 'lindynetech/book-library'
-        containerName = 'booklibrary'
+        containerName = 'book-library'
     }
     stages{
         stage("Prapare Runtime"){
             steps{
                 echo "====++++executing Prapare Runtime++++===="
-                sh "sudo yum install ruby ruby-devel rubygem-cucumber gcc -y"
+                sh "sudo yum install ruby ruby-devel rubygem-cucumber -y"
+                sh 'sudo yum group install "Development Tools" -y'
                 sh "sudo gem install json rest-client"
             }
         }
@@ -38,7 +39,7 @@ pipeline{
         stage("Deploy to Staging"){
             steps{
                 echo "====++++executing Deploy to Staging++++===="
-                sh "docker run -d --name $containerName -p 8080:8080 $imageName"
+                sh "docker run -d --rm --name $containerName -p 8080:8080 $imageName"
             }            
         }
         stage("Acceptance Test"){
@@ -53,7 +54,7 @@ pipeline{
     post{
         always{
             echo "========Cleanup (always) ========"
-            sh "docker rm -f $containerName"
+            sh "docker stop $containerName"
             sh "docker rmi $imageName"
             //sh "sudo yum remove rubygem-cucumber -y"
             //sh "sudo yum clean all -y"
