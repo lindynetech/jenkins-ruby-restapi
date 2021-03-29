@@ -2,7 +2,7 @@ pipeline{
     agent{
         label 'spot'
     }
-    parameters {
+   environment {
         imageName = 'lindynetech/book-library'
         containerName = 'booklibrary'
     }
