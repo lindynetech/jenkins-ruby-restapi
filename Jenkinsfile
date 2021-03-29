@@ -11,6 +11,7 @@ pipeline{
             steps{
                 echo "====++++executing Prapare Runtime++++===="
                 sh "sudo yum install rubygem-cucumber -y"
+                sh "sudo gem install json rest-client"
             }
         }
         stage("Docker Build"){
@@ -51,7 +52,7 @@ pipeline{
     post{
         always{
             echo "========Cleanup (always) ========"
-            sh "docker stop $containerName"
+            sh "docker rm -f $containerName"
             sh "docker rmi $imageName"
             sh "sudo yum remove rubygem-cucumber -y"
             sh "sudo yum clean all -y"
