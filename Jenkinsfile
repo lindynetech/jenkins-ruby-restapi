@@ -10,7 +10,7 @@ pipeline{
         stage("Prapare Runtime"){
             steps{
                 echo "====++++executing Prapare Runtime++++===="
-                sh "sudo yum install rubygem-cucumber -y"
+                sh "sudo yum install ruby ruby-dev rubygem-cucumber -y"
                 sh "sudo gem install json rest-client"
             }
         }
@@ -44,6 +44,7 @@ pipeline{
         stage("Acceptance Test"){
             steps{
                 echo "====++++executing Acceptance Test++++===="
+                sleep 10
                 sh "cucumber"
             }
         }
@@ -54,8 +55,8 @@ pipeline{
             echo "========Cleanup (always) ========"
             sh "docker rm -f $containerName"
             sh "docker rmi $imageName"
-            sh "sudo yum remove rubygem-cucumber -y"
-            sh "sudo yum clean all -y"
+            //sh "sudo yum remove rubygem-cucumber -y"
+            //sh "sudo yum clean all -y"
         }
     }
 }
